@@ -1,2 +1,2 @@
-# pyside6-pomodoro-timer
+# pyside6-timer
 Work in progress ...
