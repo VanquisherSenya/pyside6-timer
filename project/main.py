@@ -20,13 +20,16 @@ class Window(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.initializeUI()
+        self.initializeElements()
 
-    def initializeUI(self):
+    def initializeElements(self):
         self.setUpMainWindow()
         self.setLayout()
         self.systemTray()
         self.show()
+
+    def defaultValues(self):
+        self.counter = 0
 
     def systemTray(self):
         self.tray_icon = QIcon('sources/icon.png')
@@ -61,7 +64,6 @@ class Window(QMainWindow):
         # fixed size of app and window location on desktop
         self.setGeometry(960, 540, 0, 0)
         self.setFixedSize(150, 200)
-        self.counter = 0
         self.timer_lbl = QLabel('00:00')
         self.timer_lbl.setFont(QFont('', 30))
         self.timer_lbl.setAlignment(Qt.AlignCenter)
