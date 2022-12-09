@@ -61,7 +61,7 @@ class Window(QMainWindow):
         # fixed size of app and window location on desktop
         self.setGeometry(960, 540, 0, 0)
         self.setFixedSize(150, 200)
-
+        self.counter = 0
         self.timer_lbl = QLabel('00:00')
         self.timer_lbl.setFont(QFont('', 30))
         self.timer_lbl.setAlignment(Qt.AlignCenter)
@@ -81,38 +81,27 @@ class Window(QMainWindow):
     def editTimeFunc(self, time):
         self.time = time
         self.counter = self.time.minute() * 60 + self.time.second()
-        self.old_count = self.counter
         self.timer_lbl.setText('%02d:%02d' % (self.counter // 60, self.counter % 60))
 
     # main logic of app, a timer, which
     # can stop and play specific sound if time is out
     def timerFunc(self):
         self.sound()
-        try:
-            self.counter -= 1
-            self.timer_lbl.setText('%02d:%02d' % (self.counter // 60, self.counter % 60))
-            if self.counter == 0:
-                self.show()
-                self.tray.hide()
-                self.start_stop_btn.toggle()
-                self.start_stop_btn.setText('start')
-                self.counter = self.old_count  # start old timer with no changes in QTimeEdit spinbox
-                self.timer_lbl.setText('%02d:%02d' % (self.old_count // 60, self.old_count % 60))
-                self.edit_time.setDisabled(False)
-                self.ding.play()
-                self.timer.stop()
-            elif self.counter < 0:
-                self.start_stop_btn.toggle()
-                self.start_stop_btn.setText('start')
-                self.counter = self.old_count  # start old timer with no changes in spinbox
-                self.timer_lbl.setText('%02d:%02d' % (self.old_count // 60, self.old_count % 60))
-                self.edit_time.setDisabled(False)
-                self.ding.play()
-                self.timer.stop()
-        # if the user has not entered any values - stop timer
-        except AttributeError:
+        self.counter -= 1
+        self.timer_lbl.setText('%02d:%02d' % (self.counter // 60, self.counter % 60))
+        if self.counter == 0:
+            self.show()
+            self.tray.hide()
             self.start_stop_btn.toggle()
             self.start_stop_btn.setText('start')
+            self.timer_lbl.setText('%02d:%02d' % (0 // 60, 0 % 60))
+            self.edit_time.setDisabled(False)
+            self.ding.play()
+            self.timer.stop()
+        elif self.counter < 0:
+            self.start_stop_btn.toggle()
+            self.start_stop_btn.setText('start')
+            self.timer_lbl.setText('%02d:%02d' % (0 // 60, 0 % 60))
             self.edit_time.setDisabled(False)
             self.ding.play()
             self.timer.stop()
