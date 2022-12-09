@@ -26,6 +26,7 @@ class Window(QMainWindow):
         self.setUpMainWindow()
         self.setLayout()
         self.systemTray()
+        self.defaultValues()
         self.show()
 
     def defaultValues(self):
